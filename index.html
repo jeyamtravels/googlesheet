@@ -188,7 +188,7 @@ Print Trip Sheet
 const params = new URLSearchParams(window.location.search);
 const tripId = params.get("trip_id");
 
-const API_URL = "https://script.google.com/macros/s/AKfycbz5nZg83bT8UavKfw3DMwu6XAKOV-LR8rG3sx8KgttDzdKwN9O4SguWKeBuFKyi2mrA/exec" + "?trip_id=" + tripId;
+const API_URL = "https://script.google.com/macros/s/AKfycbxINjbI3EHD9HE1BWFvk--89jbuzrgVYaclk2TRCh375-k-Dzr87fOSSA6_QgYBLDk/exec" + "?trip_id=" + tripId;
 
 fetch(API_URL)
   .then(res => res.json())
@@ -203,6 +203,7 @@ fetch(API_URL)
 
 </body>
 </html>
+
 
 
 
