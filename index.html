@@ -100,7 +100,7 @@ canvas{
 
 <div class="sheet">
 <h2>TRIP SHEET</h2>
-
+<!-- HEADER -->
 <table>
 <tr>
 <td class="w-medium"><label>Service City</label><input id="service_city"></td>
@@ -114,6 +114,7 @@ canvas{
 <td><label>Reporting Address</label><input id="reporting_address"></td>
 </tr>
 </table>
+  <!-- START / CLOSE -->
   <table>
 <tr>
 <td class="w-small"><label>Starting Date</label><input id="starting_date"></td>
@@ -127,10 +128,11 @@ canvas{
 <td class="w-small"><label>Closing KM</label><input id="closing_km"></td>
 </tr>
   </table>
+  <!-- VEHICLE -->
   <table>
 <tr>
-<td><label>Reporting Time</label>label><input id="reporting_time"></td>
-<td><label>Car Booked</label>label><input id="car_booked"></td>
+<td><label>Reporting Time</label><input id="reporting_time"></td>
+<td><label>Car Booked</label><input id="car_booked"></td>
 <td><label>Car Allotted</label><input id="car_allotted"></td>
 </tr>
 
@@ -139,17 +141,20 @@ canvas{
 <td><label>Mobile No</label><input id="mobile_no"></td>
 <td><label>Car No</label><input id="car_no"></td>
 </tr>
-
+  </table>
+    <!-- TOTAL -->
+<table>
 <tr>
 <td><label>Total Days</label><input id="total_days"></td>
 <td><label>Total Hrs</label><input id="total_hrs" readonly></td>
 <td><label>Total KM</label><input id="total_km" readonly></td>
 </tr>
   </table>
+  <!-- ROUTE -->
   <table>
 <tr>
-<td><label>Routing Details</label><textarea rows="3"><input id="routing_details"></textarea></td>
-<td><label>Parking & Toll / Interstate Taxes</label><textarea rows="3"><input id="parking_toll"></textarea></td>
+<td><label>Routing Details</label><textarea rows="3" id="routing_details"></textarea></td>
+<td><label>Parking & Toll / Interstate Taxes</label><textarea rows="3" id="parking_toll"></textarea></td>
 </tr>
   </table>
 <tr>
@@ -179,6 +184,7 @@ fetch(API_URL)
 
 </body>
 </html>
+
 
 
 
