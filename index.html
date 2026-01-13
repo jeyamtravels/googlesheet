@@ -117,15 +117,15 @@ canvas{
   <!-- START / CLOSE -->
   <table>
 <tr>
-<td class="w-small"><label>Starting Date</label><input id="starting_date"></td>
-<td class="w-small"><label>Starting Time</label><input id="starting_time" oninput="calcHrs()"></td>
-<td class="w-small"><label>Starting km</label><input id="starting_km"oninput="calcKm()"></td>
+<td class="w-small"><label>Starting Date</label><input id="starting_date" type="date"></td>
+<td class="w-small"><label>Starting Time</label><input id="starting_time" type="time" oninput="calcHrs()"></td>
+<td class="w-small"><label>Starting km</label><input id="starting_km" type="number" oninput="calcKm()"></td>
 </tr>
 
 <tr>
-<td class="w-small"><label>Closing Date</label><input id="closing_date"></td>
-<td class="w-small"><label>Closing Time</label><input id="closing_time" oninput="calcHrs()"></td>
-<td class="w-small"><label>Closing KM</label><input id="closing_km"></td>
+<td class="w-small"><label>Closing Date</label><input id="closing_date" type="date"></td>
+<td class="w-small"><label>Closing Time</label><input id="closing_time" type="time" oninput="calcHrs()"></td>
+<td class="w-small"><label>Closing KM</label><input id="closing_km" type="km"></td>
 </tr>
   </table>
   <!-- VEHICLE -->
@@ -205,6 +205,7 @@ fetch(SCRIPT_URL + window.location.search)
 
 </body>
 </html>
+
 
 
 
