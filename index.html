@@ -132,7 +132,7 @@ canvas{
   <!-- VEHICLE -->
   <table>
 <tr>
-<td><label>Reporting Time</label><input id="reporting_time"></td>
+<td><label>Reporting Time</label><input id="reporting_time" type="time"></td>
 <td><label>Car Booked</label><input id="car_booked"></td>
 <td><label>Car Allotted</label><input id="car_allotted"></td>
 </tr>
@@ -186,7 +186,7 @@ Print Trip Sheet
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymJrwj-KWI4mGryEkdR8bkKtcLRr7jPpHzPywIphBlmwJFtZnt-gI14j0YZnCBn2PA/exec" ;
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLFrv73Mr44dPfIxDecfUA_STTdLASwhyf4DsIhbVxF-DvpVHy1_VrJLaqu3uSY16t/exec" ;
 
 fetch(SCRIPT_URL + window.location.search)
   .then(res => res.json())
@@ -206,6 +206,7 @@ fetch(SCRIPT_URL + window.location.search)
 
 </body>
 </html>
+
 
 
 
