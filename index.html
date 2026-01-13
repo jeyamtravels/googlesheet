@@ -185,29 +185,27 @@ Print Trip Sheet
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2PtuXKvXZ3SwLLC5-r6vZOXYlzuxmP-CSvrWelGt-51dhtQYCLpjHQ7lApeuJpssq/exec" ;
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZsq5j-PQNxplXcLgJNmCFwz6Ugus7WJg1CoqTfw1kReWQujvJuK7Nw4jg70dYMoD7/exec" ;
 
-// Call Apps Script with SAME URL parameters
 fetch(SCRIPT_URL + window.location.search)
   .then(res => res.json())
   .then(data => {
-    console.log("DATA RECEIVED:", data); // DEBUG
-
-    for (const key in data) {
-      const field = document.getElementById(key);
-      if (field) {
-        field.value = data[key];
-      }
+    if (data.error) {
+      alert(data.error);
+      return;
     }
+
+    Object.keys(data).forEach(key => {
+      const el = document.getElementById(key);
+      if (el) el.value = data[key];
+    });
   })
-  .catch(err => {
-    alert("Failed to load trip data");
-    console.error(err);
-  });
+  .catch(() => alert("Failed to load data"));
 </script>
 
 </body>
 </html>
+
 
 
 
