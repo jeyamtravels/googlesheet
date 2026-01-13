@@ -186,6 +186,33 @@ Print Trip Sheet
 </div>
 
 <script>
+  function formatDDMMYYYY(val) {
+  if (!val) return "";
+  const [y, m, d] = val.split("-");
+  return `${d}-${m}-${y}`;
+}
+
+window.addEventListener("beforeprint", () => {
+  ["starting_date", "closing_date"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value) {
+      el.setAttribute("data-orig", el.value);
+      el.value = formatDDMMYYYY(el.value);
+      el.type = "text";
+    }
+  });
+});
+
+window.addEventListener("afterprint", () => {
+  ["starting_date", "closing_date"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getAttribute("data-orig")) {
+      el.type = "date";
+      el.value = el.getAttribute("data-orig");
+    }
+  });
+});
+
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmCR3DCOmqkbfsCR4XlWAWypQpwu1YMl28wu8lj8wKn_BAs4LQO00Q_iDZT8l-EfsR/exec" ;
 
 fetch(SCRIPT_URL + window.location.search)
@@ -206,6 +233,7 @@ fetch(SCRIPT_URL + window.location.search)
 
 </body>
 </html>
+
 
 
 
