@@ -186,55 +186,45 @@ Print Trip Sheet
 </div>
 
 <script>
-function toDDMMYYYY(val) {
-  if (!val) return "";
-  const [y,m,d] = val.split("-");
-  return `${d}-${m}-${y}`;
-}
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzoyNfIpVlFTdY0NuRomVOaDuvSZoJvAspWOAYdhatVEvNzaf34ME-JuSoc5VZQoxmJ/exec";
 
-window.addEventListener("beforeprint", () => {
-  ["starting_date","closing_date"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el.value) {
-      el.dataset.v = el.value;
-      el.type = "text";
-      el.value = toDDMMYYYY(el.value);
-    }
-  });
-});
+/* AUTO LOAD DATA */
+window.addEventListener("DOMContentLoaded", () => {
 
-window.addEventListener("afterprint", () => {
-  ["starting_date","closing_date"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el.dataset.v) {
-      el.type = "date";
-      el.value = el.dataset.v;
-    }
-  });
-});
+  const params = new URLSearchParams(window.location.search);
+  const dsNo = params.get("ds_no");
 
+  if (!dsNo) return;   // no ds_no → empty form
 
+  fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
+    .then(res => res.json())
+    .then(data => {
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzoyNfIpVlFTdY0NuRomVOaDuvSZoJvAspWOAYdhatVEvNzaf34ME-JuSoc5VZQoxmJ/exec" ;
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
 
-fetch(SCRIPT_URL + window.location.search)
-  .then(res => res.json())
-  .then(data => {
-    if (data.error) {
-      alert(data.error);
-      return;
-    }
+      // Auto fill form
+      Object.keys(data).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) el.value = data[key];
+      });
 
-    Object.keys(data).forEach(key => {
-      const el = document.getElementById(key);
-      if (el) el.value = data[key];
+    })
+    .catch(err => {
+      alert("Failed to load trip data");
+      console.error(err);
     });
-  })
-  .catch(() => alert("Failed to load data"));
+
+});
 </script>
+
 
 </body>
 </html>
+
 
 
 
