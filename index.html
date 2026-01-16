@@ -188,41 +188,78 @@ Print Trip Sheet
 <script>
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbxg-C2aqqnK9m9cvI4HF-_mwaUtAE6pI_g2DyQ84bfPVhmu84VPpjNdQEhOpRAz5PS0/exec";
-/* AUTO LOAD DATA */
-window.addEventListener("DOMContentLoaded", () => {
 
+/* ---------------- LOAD DATA FROM GOOGLE SHEET ---------------- */
+window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const dsNo = params.get("ds_no");
-
-  if (!dsNo) return;   // no ds_no → empty form
+  if (!dsNo) return;
 
   fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
     .then(res => res.json())
     .then(data => {
-
       if (data.error) {
         alert(data.error);
         return;
       }
 
-      // Auto fill form
-      Object.keys(data).forEach(key => {
-        const el = document.getElementById(key);
-        if (el) el.value = data[key];
+      // Fill form
+      Object.keys(data).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = data[id];
       });
 
+      calculateAll();
     })
-    .catch(err => {
-      alert("Failed to load trip data");
-      console.error(err);
-    });
-
+    .catch(() => alert("Failed to load data"));
 });
-</script>
 
+/* ---------------- CALCULATIONS ---------------- */
+
+function calculateAll() {
+  calculateKM();
+  calculateHoursAndDays();
+}
+
+document.querySelectorAll(
+  "#starting_km, #closing_km, #starting_date, #starting_time, #closing_date, #closing_time"
+).forEach(el => el.addEventListener("input", calculateAll));
+
+/* ---- TOTAL KM ---- */
+function calculateKM() {
+  const startKm = Number(document.getElementById("starting_km").value);
+  const closeKm = Number(document.getElementById("closing_km").value);
+
+  if (!isNaN(startKm) && !isNaN(closeKm)) {
+    document.getElementById("total_km").value = closeKm - startKm;
+  }
+}
+
+/* ---- TOTAL HOURS + DAYS ---- */
+function calculateHoursAndDays() {
+  const sd = document.getElementById("starting_date").value;
+  const st = document.getElementById("starting_time").value;
+  const cd = document.getElementById("closing_date").value;
+  const ct = document.getElementById("closing_time").value;
+
+  if (!(sd && st && cd && ct)) return;
+
+  const start = new Date(`${sd}T${st}`);
+  const end = new Date(`${cd}T${ct}`);
+
+  if (end <= start) return;
+
+  const diffMs = end - start;
+  const diffHrs = diffMs / (1000 * 60 * 60);
+
+  document.getElementById("total_hrs").value = diffHrs.toFixed(2);
+  document.getElementById("total_days").value = Math.ceil(diffHrs / 24);
+}
+</script>
 
 </body>
 </html>
+
 
 
 
