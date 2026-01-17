@@ -136,14 +136,14 @@ canvas{
 <!-- VEHICLE -->
 <table>
 <tr>
-  <td><label>Reporting Time</label><input type="time"></td>
-  <td><label>Car Booked</label><input></td>
-  <td><label>Car Allotted</label><input></td>
+  <td><label>Reporting Time</label><input id="reporting_time" type="time"></td>
+  <td><label>Car Booked</label><input id="car_booked"></td>
+  <td><label>Car Allotted</label><input id="car_allotted"></td>
 </tr>
 <tr>
-  <td><label>Chauffeur Name</label><input></td>
-  <td><label>Mobile No</label><input></td>
-  <td><label>Car No</label><input></td>
+  <td><label>Chauffeur Name</label><input id="chauffeur_name"></td>
+  <td><label>Mobile No</label><input id="mobile_no"></td>
+  <td><label>Car No</label><input id="car_no"></td>
 </tr>
 </table>
 <table>
@@ -151,7 +151,7 @@ canvas{
   <!-- ROUTE -->
 <table>
 <tr>
-  <td><label>Routing Details</label><textarea rows="3"></textarea></td>
+  <td><label>Routing Details</label><input id="routing"></td>
 <td><label>Parking</label><input id="parking" type="number"></td>
 </tr>
 </table>
@@ -228,6 +228,7 @@ function calcHrsDays(){
 </script>
 </body>
 </html>
+
 
 
 
