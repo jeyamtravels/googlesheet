@@ -58,7 +58,14 @@ textarea{
   resize:none;
   line-height:1.2;
 }
-
+.routing-box {
+  width: 100%;
+  height: 100px;       /* increase as needed */
+  resize: none;        /* prevents manual resize (optional) */
+  font-size: 14px;
+  padding: 6px;
+  box-sizing: border-box;
+}
 
 /* fixed widths */
 .w-small{width:120px;}
@@ -151,7 +158,7 @@ canvas{
   <!-- ROUTE -->
 <table>
 <tr>
-  <td><label>Routing Details</label><input id="routing"></td>
+  <textarea id="routing_details" class="routing-box"></textarea>
 <td><label>Parking</label><input id="parking" type="number"></td>
 </tr>
 </table>
@@ -228,6 +235,7 @@ function calcHrsDays(){
 </script>
 </body>
 </html>
+
 
 
 
