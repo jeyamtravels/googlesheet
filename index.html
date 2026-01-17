@@ -6,281 +6,110 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  font-family: Arial, sans-serif;
-  background:#f2f2f2;
-  padding:5px;
-}
-
-.sheet{
-  max-width:900px;
-  margin:auto;
-  background:#fff;
-  border:2px solid #000;
-  padding:6px;
-}
-
-h2{
-  text-align:center;
-  letter-spacing:1px;
-  margin:2px 0 6px;
-  font-size:16px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:12px;
-}
-
-td{
-  border:1px solid #000;
-  padding:3px;
-  vertical-align:top;
-}
-
-label{
-  font-weight:bold;
-  font-size:11px;
-  display:block;
-  margin-bottom:1px;
-}
-
-input, textarea{
-  width:100%;
-  border:none;
-  outline:none;
-  font-size:12px;
-  padding:1px 0;
-}
-
-textarea{
-  resize:none;
-  line-height:1.2;
-}
-
-
-/* fixed widths */
-.w-small{width:120px;}
-.w-medium{width:160px;}
-.w-large{width:260px;}
-
-/* signature */
-canvas{
-  border:1px solid #000;
-  width:100%;
-  height:55px;   /* was 80px */
-  touch-action:none;
-}
-
-
-.clear{
-  font-size:11px;
-  color:blue;
-  cursor:pointer;
-  margin-top:3px;
-}
-
-/* print */
-@media print{
-    @page{
-        margin:6mm;
-    }
-    body{margin:0};
-  body{background:#fff;}
-  button{display:none;}
-  h2{font-size:14px;margin:2px 0;}
-  td{padding:2px;}
-  canvas{height:45px;}
-}
-
+body{font-family:Arial;background:#f2f2f2;padding:5px}
+.sheet{max-width:900px;margin:auto;background:#fff;border:2px solid #000;padding:6px}
+h2{text-align:center;font-size:16px;margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td{border:1px solid #000;padding:4px}
+label{font-weight:bold;font-size:11px}
+input,textarea{width:100%;border:none;font-size:12px}
+textarea{resize:none}
 </style>
 </head>
-<body>
 
+<body>
 <div class="sheet">
 <h2>TRIP SHEET</h2>
-<!-- HEADER -->
+
 <table>
 <tr>
-<td class="w-medium"><label>Service City</label><input id="service_city"></td>
-<td class="w-large"><label>Organisation</label><input id="organisation"></td>
+<td><label>Service City</label><input id="service_city"></td>
+<td><label>Organisation</label><input id="organisation"></td>
 <td><label>Guest Name</label><input id="guest_name"></td>
 </tr>
-
 <tr>
-<td>DS No<br><input id="ds_no"></td>
-<td>Booking ID<br><input id="booking_id"></td>
+<td><label>DS No</label><input id="ds_no"></td>
+<td><label>Booking ID</label><input id="booking_id"></td>
 <td><label>Reporting Address</label><input id="reporting_address"></td>
 </tr>
 </table>
-  <!-- START / CLOSE -->
-  <table>
-<tr>
-<td class="w-small"><label>Starting Date</label><input id="starting_date" type="date"></td>
-<td class="w-small"><label>Starting Time</label><input id="starting_time" type="time" oninput="calcHrs()"></td>
-<td class="w-small"><label>Starting km</label><input id="starting_km" type="number"></td>
-</tr>
 
-<tr>
-<td class="w-small"><label>Closing Date</label><input id="closing_date" type="date"></td>
-<td class="w-small"><label>Closing Time</label><input id="closing_time" type="time" oninput="calcHrs()"></td>
-<td class="w-small"><label>Closing KM</label><input id="closing_km" type="number">
-</td>
-</tr>
-  </table>
-  <!-- VEHICLE -->
-  <table>
-<tr>
-<td><label>Reporting Time</label><input id="reporting_time" type="time"></td>
-<td><label>Car Booked</label><input id="car_booked"></td>
-<td><label>Car Allotted</label><input id="car_allotted"></td>
-</tr>
-
-<tr>
-<td><label>Chauffeur Name</label><input id="chauffeur_name"></td>
-<td><label>Mobile No</label><input id="mobile_no"></td>
-<td><label>Car No</label><input id="car_no"></td>
-</tr>
-  </table>
-    <!-- TOTAL -->
 <table>
 <tr>
-<td><label>Total Days</label><input id="total_days"></td>
-<td><label>Total Hrs</label><input id="total_hrs" readonly></td>
-<td><label>Total KM</label><input id="total_km" readonly></td>
+<td><label>Starting Date</label><input id="starting_date" type="date"></td>
+<td><label>Starting Time</label><input id="starting_time" type="time"></td>
+<td><label>Starting KM</label><input id="starting_km" type="number"></td>
 </tr>
-  </table>
-  <!-- ROUTE -->
-  <table>
 <tr>
-<td><label>Routing Details</label><textarea rows="3" id="routing_details"></textarea></td>
-<td><label>Parking & Toll / Interstate Taxes</label><input id="parking_toll" type="number"></td>
-</tr>
-  </table>
-<!-- SIGNATURES -->
-<table>
-<tr>
-  <td width="50%">
-    <label>Guest Signature </label>
-    <canvas id="guestSign"></canvas>
-    <div class="clear" onclick="clearCanvas('guestSign')">Clear Signature</div>
-  </td>
-
-  <td width="50%">
-    <label>Chauffeur Signature </label>
-   <canvas id="driverSign"></canvas>
-    <div class="clear" onclick="clearCanvas('driverSign')">Clear Signature</div>
-  </td>
+<td><label>Closing Date</label><input id="closing_date" type="date"></td>
+<td><label>Closing Time</label><input id="closing_time" type="time"></td>
+<td><label>Closing KM</label><input id="closing_km" type="number"></td>
 </tr>
 </table>
 
-<p style="font-size:11px;margin-top:5px">
-I confirm that I am responsible for full payment of this bill if not paid by the organisation.
-</p>
+<table>
+<tr>
+<td><label>Total Days</label><input id="total_days" readonly></td>
+<td><label>Total Hrs</label><input id="total_hrs" readonly></td>
+<td><label>Total KM</label><input id="total_km" readonly></td>
+</tr>
+</table>
 
-<button onclick="window.print()" style="width:100%;padding:5px;margin-top:6px">
-Print Trip Sheet
-</button>
+<table>
+<tr>
+<td><label>Parking</label><input id="parking" type="number"></td>
+</tr>
+</table>
 
+<button onclick="window.print()">Print Trip Sheet</button>
 </div>
 
 <script>
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbzRXyySSGVMPs56WJ8XZwqCX1OsblHdK6AXVlVQ5lj_VkkMXy2n4xlJDlg1nGTbd0CM/exec";
+const SCRIPT_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
 
-/* ---------------- LOAD DATA FROM GOOGLE SHEET ---------------- */
-window.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const dsNo = params.get("ds_no");
+// Load data
+window.onload = () => {
+  const dsNo = new URLSearchParams(location.search).get("ds_no");
   if (!dsNo) return;
 
-  fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
-    .then(res => res.json())
+  fetch(`${SCRIPT_URL}?ds_no=${dsNo}`)
+    .then(r => r.json())
     .then(data => {
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-      // Fill form
       Object.keys(data).forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = data[id];
       });
-
       calculateAll();
-    })
-    .catch(() => alert("Failed to load data"));
-});
+    });
+};
 
-/* ---------------- CALCULATIONS ---------------- */
+// CALCULATIONS
+["starting_date","starting_time","closing_date","closing_time","starting_km","closing_km"]
+.forEach(id => document.getElementById(id).addEventListener("input", calculateAll));
 
-function calculateAll() {
-  calculateKM();
-  calculateHoursAndDays();
+function calculateAll(){
+  calcKM();
+  calcHrsDays();
 }
 
-document.querySelectorAll(
-  "#starting_km, #closing_km, #starting_date, #starting_time, #closing_date, #closing_time"
-).forEach(el => el.addEventListener("input", calculateAll));
-
-/* ---- TOTAL KM ---- */
-function calculateKM() {
-  const startKm = Number(document.getElementById("starting_km").value);
-  const closeKm = Number(document.getElementById("closing_km").value);
-
-  if (!isNaN(startKm) && !isNaN(closeKm)) {
-    document.getElementById("total_km").value = closeKm - startKm;
-  }
+function calcKM(){
+  const s = Number(starting_km.value);
+  const c = Number(closing_km.value);
+  if(!isNaN(s) && !isNaN(c)) total_km.value = c - s;
 }
 
-/* ---- TOTAL HOURS + DAYS ---- */
-function calculateHoursAndDays() {
-  const sd = document.getElementById("starting_date").value;
-  const st = document.getElementById("starting_time").value;
-  const cd = document.getElementById("closing_date").value;
-  const ct = document.getElementById("closing_time").value;
+function calcHrsDays(){
+  if(!starting_date.value || !starting_time.value || !closing_date.value || !closing_time.value) return;
 
-  if (!(sd && st && cd && ct)) return;
+  const start = new Date(`${starting_date.value}T${starting_time.value}`);
+  const end   = new Date(`${closing_date.value}T${closing_time.value}`);
+  const diff  = end - start;
+  if(diff <= 0) return;
 
-  const start = new Date(`${sd}T${st}`);
-  const end = new Date(`${cd}T${ct}`);
-
-  if (end <= start) return;
-
-  const diffMs = end - start;
-  const diffHrs = diffMs / (1000 * 60 * 60);
-
-  document.getElementById("total_hrs").value = diffHrs.toFixed(2);
-  document.getElementById("total_days").value = Math.ceil(diffHrs / 24);
+  const hrs = diff / 3600000;
+  total_hrs.value = hrs.toFixed(2);
+  total_days.value = Math.ceil(hrs / 24);
 }
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
