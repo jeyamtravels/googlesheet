@@ -54,12 +54,48 @@ textarea{resize:none}
 <td><label>Total KM</label><input id="total_km" readonly></td>
 </tr>
 </table>
-
+<!-- VEHICLE -->
 <table>
 <tr>
+  <td><label>Reporting Time</label><input type="time"></td>
+  <td><label>Car Booked</label><input></td>
+  <td><label>Car Allotted</label><input></td>
+</tr>
+<tr>
+  <td><label>Chauffeur Name</label><input></td>
+  <td><label>Mobile No</label><input></td>
+  <td><label>Car No</label><input></td>
+</tr>
+</table>
+<table>
+<tr>
+  <!-- ROUTE -->
+<table>
+<tr>
+  <td><label>Routing Details</label><textarea rows="3"></textarea></td>
 <td><label>Parking</label><input id="parking" type="number"></td>
 </tr>
 </table>
+<!-- SIGNATURES -->
+<table>
+<tr>
+  <td width="50%">
+    <label>Guest Signature </label>
+    <canvas id="guestSign"></canvas>
+    <div class="clear" onclick="clearCanvas('guestSign')">Clear Signature</div>
+  </td>
+
+  <td width="50%">
+    <label>Chauffeur Signature </label>
+   <canvas id="driverSign"></canvas>
+    <div class="clear" onclick="clearCanvas('driverSign')">Clear Signature</div>
+  </td>
+</tr>
+</table>
+
+<p style="font-size:11px;margin-top:5px">
+I confirm that I am responsible for full payment of this bill if not paid by the organisation.
+</p>
 
 <button onclick="window.print()">Print Trip Sheet</button>
 </div>
@@ -113,3 +149,4 @@ function calcHrsDays(){
 </script>
 </body>
 </html>
+
