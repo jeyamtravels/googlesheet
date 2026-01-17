@@ -54,19 +54,14 @@ input, textarea{
   padding:1px 0;
 }
 
-textarea{
-  resize:none;
-  line-height:1.2;
-}
 .routing-box {
-  width: 80px;
-  height: 80px;       /* increase as needed */
-  resize: none;        /* prevents manual resize (optional) */
-  font-size: 14px;
+  width: 100%;
+  height: 120px;     /* increase/decrease here */
+  resize: none;
   padding: 6px;
   box-sizing: border-box;
+  font-size: 14px;
 }
-
 /* fixed widths */
 .w-small{width:120px;}
 .w-medium{width:160px;}
@@ -153,12 +148,14 @@ canvas{
   <td><label>Car No</label><input id="car_no"></td>
 </tr>
 </table>
-<table>
-<tr>
+
   <!-- ROUTE -->
 <table>
-<tr>
-  <td><label>Routing</label><textarea id="routing_details" class="routing-box"></textarea></td>
+ <!-- ROUTING DETAILS (WIDE & TALL) -->
+  <td colspan="2" style="vertical-align: top;">
+    <b>Routing Details</b><br>
+    <textarea id="routing_details" class="routing-box"></textarea>
+  </td>
 <td><label>Parking</label><input id="parking" type="number"></td>
 </tr>
 </table>
@@ -235,6 +232,7 @@ function calcHrsDays(){
 </script>
 </body>
 </html>
+
 
 
 
