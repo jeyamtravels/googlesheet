@@ -51,34 +51,49 @@ input, textarea{
   border:none;
   outline:none;
   font-size:12px;
+  padding:1px 0;
 }
 
 textarea{
   resize:none;
+  line-height:1.2;
 }
 
-/* Routing big box */
-.routing-box{
-  height:80px;
-}
+
+/* fixed widths */
+.w-small{width:110px;}
+.w-medium{width:110px;}
+.w-large{width:270px;}
 
 /* signature */
 canvas{
   border:1px solid #000;
   width:100%;
-  height:55px;
+  height:55px;   /* was 80px */
   touch-action:none;
 }
+
 
 .clear{
   font-size:11px;
   color:blue;
   cursor:pointer;
+  margin-top:3px;
 }
 
+/* print */
 @media print{
+    @page{
+        margin:6mm;
+    }
+    body{margin:0};
+  body{background:#fff;}
   button{display:none;}
+  h2{font-size:14px;margin:2px 0;}
+  td{padding:2px;}
+  canvas{height:45px;}
 }
+
 </style>
 </head>
 
@@ -211,4 +226,5 @@ function calculateAll(){
 
 </body>
 </html>
+
 
