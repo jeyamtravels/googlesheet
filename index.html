@@ -51,47 +51,33 @@ input, textarea{
   border:none;
   outline:none;
   font-size:12px;
-  padding:1px 0;
 }
 
 textarea{
   resize:none;
-  line-height:1.2;
 }
 
-
-/* fixed widths */
-.w-small{width:110px;}
-.w-medium{width:110px;}
-.w-large{width:270px;}
+/* Routing big box */
+.routing-box{
+  height:80px;
+}
 
 /* signature */
 canvas{
   border:1px solid #000;
   width:100%;
-  height:55px;   /* was 80px */
+  height:55px;
   touch-action:none;
 }
-
 
 .clear{
   font-size:11px;
   color:blue;
   cursor:pointer;
-  margin-top:3px;
 }
 
-/* print */
 @media print{
-    @page{
-        margin:6mm;
-    }
-    body{margin:0};
-  body{background:#fff;}
   button{display:none;}
-  h2{font-size:14px;margin:2px 0;}
-  td{padding:2px;}
-  canvas{height:45px;}
 }
 </style>
 </head>
@@ -102,9 +88,9 @@ canvas{
 
 <table>
 <tr>
-<td class="w-medium"><label>Service City</label><input id="service_city"></td>
-<td class="w-medium"><label>Organisation</label><input id="organisation"></td>
-<td class="w-large"><label>Guest Name</label><input id="guest_name"></td>
+<td><label>Service City</label><input id="service_city"></td>
+<td><label>Organisation</label><input id="organisation"></td>
+<td><label>Guest Name</label><input id="guest_name"></td>
 </tr>
 <tr>
 <td><label>DS No</label><input id="ds_no"></td>
@@ -115,14 +101,14 @@ canvas{
 
 <table>
 <tr>
-<td class="w-small"><label>Starting Date</label><input id="starting_date" type="date"></td>
-<td class="w-small"><label>Starting Time</label><input id="starting_time" type="time"></td>
-<td class="w-small"><label>Starting KM</label><input id="starting_km" type="number"></td>
+<td><label>Starting Date</label><input id="starting_date" type="date"></td>
+<td><label>Starting Time</label><input id="starting_time" type="time"></td>
+<td><label>Starting KM</label><input id="starting_km" type="number"></td>
 </tr>
 <tr>
-<td class="w-small"><label>Closing Date</label><input id="closing_date" type="date"></td>
-<td class="w-small"><label>Closing Time</label><input id="closing_time" type="time"></td>
-<td class="w-small"><label>Closing KM</label><input id="closing_km" type="number"></td>
+<td><label>Closing Date</label><input id="closing_date" type="date"></td>
+<td><label>Closing Time</label><input id="closing_time" type="time"></td>
+<td><label>Closing KM</label><input id="closing_km" type="number"></td>
 </tr>
 </table>
 
@@ -133,48 +119,47 @@ canvas{
 <td><label>Total KM</label><input id="total_km" readonly></td>
 </tr>
 </table>
-<!-- VEHICLE -->
+
 <table>
 <tr>
-  <td><label>Reporting Time</label><input id="reporting_time" type="time"></td>
-  <td><label>Car Booked</label><input id="car_booked"></td>
-  <td><label>Car Allotted</label><input id="car_allotted"></td>
+<td><label>Reporting Time</label><input id="reporting_time" type="time"></td>
+<td><label>Car Booked</label><input id="car_booked"></td>
+<td><label>Car Allotted</label><input id="car_allotted"></td>
 </tr>
 <tr>
-  <td><label>Chauffeur Name</label><input id="chauffeur_name"></td>
-  <td><label>Mobile No</label><input id="mobile_no"></td>
-  <td><label>Car No</label><input id="car_no"></td>
+<td><label>Chauffeur Name</label><input id="chauffeur_name"></td>
+<td><label>Mobile No</label><input id="mobile_no"></td>
+<td><label>Car No</label><input id="car_no"></td>
 </tr>
 </table>
 
-  <!-- ROUTE -->
-<table>
- <!-- ROUTING DETAILS (WIDE & TALL) -->
-  <td colspan="2" style="vertical-align: top;">
-    <b>Routing Details</b><br>
-    <textarea id="routing_details" class="routing-box"></textarea>
-  </td>
-<td><label>Parking & Toll Interest Taxes</label><input id="parking" type="number"></td>
-</tr>
-</table>
-<!-- SIGNATURES -->
 <table>
 <tr>
-  <td width="50%">
-    <label>Guest Signature </label>
-    <canvas id="guestSign"></canvas>
-    <div class="clear" onclick="clearCanvas('guestSign')">Clear Signature</div>
-  </td>
-
-  <td width="50%">
-    <label>Chauffeur Signature </label>
-   <canvas id="driverSign"></canvas>
-    <div class="clear" onclick="clearCanvas('driverSign')">Clear Signature</div>
-  </td>
+<td colspan="2">
+  <label>Routing Details</label>
+  <textarea id="routing_details" class="routing-box"></textarea>
+</td>
+<td>
+  <label>Parking & Toll</label>
+  <input id="parking" type="number">
+</td>
 </tr>
 </table>
 
-<p style="font-size:11px;margin-top:5px">
+<table>
+<tr>
+<td width="50%">
+<label>Guest Signature</label>
+<canvas id="guestSign"></canvas>
+</td>
+<td width="50%">
+<label>Chauffeur Signature</label>
+<canvas id="driverSign"></canvas>
+</td>
+</tr>
+</table>
+
+<p style="font-size:11px">
 I confirm that I am responsible for full payment of this bill if not paid by the organisation.
 </p>
 
@@ -182,95 +167,48 @@ I confirm that I am responsible for full payment of this bill if not paid by the
 </div>
 
 <script>
-<script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDXW7mpvqaVAnUI4UA-u3fwVe8TOMw3SPOSc29-QUdSjqEtx9ylhuVmNYMTykhkMbn/exec";
 
-/* ========= LOAD DATA FROM GOOGLE SHEET ========= */
+/* LOAD DATA */
 window.onload = () => {
   const dsNo = new URLSearchParams(location.search).get("ds_no");
   if (!dsNo) return;
 
   fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
-      console.log("DATA:", data); // DEBUG
-      for (const key in data) {
-        const el = document.getElementById(key);
-        if (el) el.value = data[key];
+      for (const k in data) {
+        const el = document.getElementById(k);
+        if (el) el.value = data[k];
       }
       calculateAll();
     })
-    .catch(err => {
-      alert("Failed to load trip data");
-      console.error(err);
-    });
+    .catch(() => alert("Failed to load trip data"));
 };
 
-/* ========= CALCULATIONS ========= */
-function calculateAll() {
-
-  /* TOTAL KM */
-  const skm = parseFloat(starting_km.value) || 0;
-  const ckm = parseFloat(closing_km.value) || 0;
+/* CALCULATIONS */
+function calculateAll(){
+  const skm = +starting_km.value || 0;
+  const ckm = +closing_km.value || 0;
   if (ckm >= skm) total_km.value = ckm - skm;
 
-  /* TOTAL HOURS (TIME ONLY) */
   if (starting_time.value && closing_time.value) {
     const [sh, sm] = starting_time.value.split(":").map(Number);
     const [ch, cm] = closing_time.value.split(":").map(Number);
 
-    let startMin = sh * 60 + sm;
-    let endMin = ch * 60 + cm;
-    if (endMin < startMin) endMin += 1440;
+    let s = sh*60 + sm;
+    let e = ch*60 + cm;
+    if (e < s) e += 1440;
 
-    const hrs = (endMin - startMin) / 60;
+    const hrs = (e - s) / 60;
     total_hrs.value = hrs.toFixed(2);
-
-    /* TOTAL DAYS */
     total_days.value = Math.max(1, Math.ceil(hrs / 24));
   }
 }
 
-/* AUTO TRIGGER */
-[
-  "starting_time","closing_time",
-  "starting_km","closing_km"
-].forEach(id => {
-  document.getElementById(id).addEventListener("input", calculateAll);
-});
-</script>
-
+["starting_time","closing_time","starting_km","closing_km"]
+.forEach(id => document.getElementById(id).addEventListener("input", calculateAll));
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
