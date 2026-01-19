@@ -206,30 +206,35 @@ window.onload = () => {
 
 function calculateAll(){
   calcKM();
-  calcHrsDays();
+  calcHrs();
+}
+function calcKm(){
+  let s=Number(startKm.value)||0;
+  let e=Number(closeKm.value)||0;
+  totalKm.value=e>=s?e-s:0;
 }
 
+function calcHrs(){
+  if(!startTime.value||!closeTime.value) return;
+  let [sh,sm]=startTime.value.split(':').map(Number);
+  let [eh,em]=closeTime.value.split(':').map(Number);
+  let start=sh*60+sm,end=eh*60+em;
+  if(end<start) end+=1440;
+  let diff=end-start;
+  totalHrs.value=Math.floor(diff/60)+"h "+(diff%60)+"m";
+}
 function calcKM(){
   const s = Number(starting_km.value);
   const c = Number(closing_km.value);
   if(!isNaN(s) && !isNaN(c)) total_km.value = c - s;
 }
 
-function calcHrsDays(){
-  if(!starting_date.value || !starting_time.value || !closing_date.value || !closing_time.value) return;
 
-  const start = new Date(`${starting_date.value}T${starting_time.value}`);
-  const end   = new Date(`${closing_date.value}T${closing_time.value}`);
-  const diff  = end - start;
-  if(diff <= 0) return;
-
-  const hrs = diff / 3600000;
-  total_hrs.value = hrs.toFixed(2);
-  total_days.value = Math.ceil(hrs / 24);
 }
 </script>
 </body>
 </html>
+
 
 
 
