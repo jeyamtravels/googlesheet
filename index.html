@@ -182,70 +182,69 @@ I confirm that I am responsible for full payment of this bill if not paid by the
 </div>
 
 <script>
-const SCRIPT_URL = https://script.google.com/macros/s/AKfycbzDXW7mpvqaVAnUI4UA-u3fwVe8TOMw3SPOSc29-QUdSjqEtx9ylhuVmNYMTykhkMbn/exec;
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDXW7mpvqaVAnUI4UA-u3fwVe8TOMw3SPOSc29-QUdSjqEtx9ylhuVmNYMTykhkMbn/exec";
 
-// Load data
+/* ========= LOAD DATA FROM GOOGLE SHEET ========= */
 window.onload = () => {
   const dsNo = new URLSearchParams(location.search).get("ds_no");
   if (!dsNo) return;
 
-  fetch(`${SCRIPT_URL}?ds_no=${dsNo}`)
-    .then(r => r.json())
+  fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
+    .then(res => res.json())
     .then(data => {
-      Object.keys(data).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = data[id];
-      });
+      console.log("DATA:", data); // DEBUG
+      for (const key in data) {
+        const el = document.getElementById(key);
+        if (el) el.value = data[key];
+      }
       calculateAll();
+    })
+    .catch(err => {
+      alert("Failed to load trip data");
+      console.error(err);
     });
 };
 
-// CALCULATIONS
-["starting_date","starting_time","closing_date","closing_time","starting_km","closing_km"]
-.forEach(id => document.getElementById(id).addEventListener("input", calculateAll));
-
+/* ========= CALCULATIONS ========= */
 function calculateAll() {
 
-  /* ===== TOTAL KM ===== */
-  const skm = parseFloat(document.getElementById("starting_km").value) || 0;
-  const ckm = parseFloat(document.getElementById("closing_km").value) || 0;
+  /* TOTAL KM */
+  const skm = parseFloat(starting_km.value) || 0;
+  const ckm = parseFloat(closing_km.value) || 0;
+  if (ckm >= skm) total_km.value = ckm - skm;
 
-  if (ckm >= skm) {
-    document.getElementById("total_km").value = ckm - skm;
+  /* TOTAL HOURS (TIME ONLY) */
+  if (starting_time.value && closing_time.value) {
+    const [sh, sm] = starting_time.value.split(":").map(Number);
+    const [ch, cm] = closing_time.value.split(":").map(Number);
+
+    let startMin = sh * 60 + sm;
+    let endMin = ch * 60 + cm;
+    if (endMin < startMin) endMin += 1440;
+
+    const hrs = (endMin - startMin) / 60;
+    total_hrs.value = hrs.toFixed(2);
+
+    /* TOTAL DAYS */
+    total_days.value = Math.max(1, Math.ceil(hrs / 24));
   }
-  function calculateTotalHrsTimeOnly() {
-
-  const st = document.getElementById("starting_time").value;
-  const ct = document.getElementById("closing_time").value;
-
-  if (!st || !ct) return;
-
-  const [sh, sm] = st.split(":").map(Number);
-  const [ch, cm] = ct.split(":").map(Number);
-
-  let startMinutes = sh * 60 + sm;
-  let endMinutes = ch * 60 + cm;
-
-  // If crosses midnight
-  if (endMinutes < startMinutes) {
-    endMinutes += 24 * 60;
-  }
-
-  const diffMinutes = endMinutes - startMinutes;
-  const totalHrs = diffMinutes / 60;
-
-  document.getElementById("total_hrs").value = totalHrs.toFixed(2);
 }
 
-// Auto trigger
-["starting_time", "closing_time"].forEach(id => {
-  document.getElementById(id).addEventListener("change", calculateTotalHrsTimeOnly);
-  document.getElementById(id).addEventListener("input", calculateTotalHrsTimeOnly);
+/* AUTO TRIGGER */
+[
+  "starting_time","closing_time",
+  "starting_km","closing_km"
+].forEach(id => {
+  document.getElementById(id).addEventListener("input", calculateAll);
 });
+</script>
+
 </script>
 
 </body>
 </html>
+
 
 
 
