@@ -204,31 +204,49 @@ window.onload = () => {
 ["starting_date","starting_time","closing_date","closing_time","starting_km","closing_km"]
 .forEach(id => document.getElementById(id).addEventListener("input", calculateAll));
 
-function calculateAll(){
-  calcKM();
-  calcHrs();
-}
-function calcKm(){
-  let s=Number(startKm.value)||0;
-  let e=Number(closeKm.value)||0;
-  totalKm.value=e>=s?e-s:0;
+function calculateAll() {
+
+  /* ===== TOTAL KM ===== */
+  const skm = parseFloat(document.getElementById("starting_km").value) || 0;
+  const ckm = parseFloat(document.getElementById("closing_km").value) || 0;
+
+  if (ckm >= skm) {
+    document.getElementById("total_km").value = ckm - skm;
+  }
+  function calculateTotalHrsTimeOnly() {
+
+  const st = document.getElementById("starting_time").value;
+  const ct = document.getElementById("closing_time").value;
+
+  if (!st || !ct) return;
+
+  const [sh, sm] = st.split(":").map(Number);
+  const [ch, cm] = ct.split(":").map(Number);
+
+  let startMinutes = sh * 60 + sm;
+  let endMinutes = ch * 60 + cm;
+
+  // If crosses midnight
+  if (endMinutes < startMinutes) {
+    endMinutes += 24 * 60;
+  }
+
+  const diffMinutes = endMinutes - startMinutes;
+  const totalHrs = diffMinutes / 60;
+
+  document.getElementById("total_hrs").value = totalHrs.toFixed(2);
 }
 
-function calcHrs(){
-  if(!startTime.value||!closeTime.value) return;
-  let [sh,sm]=startTime.value.split(':').map(Number);
-  let [eh,em]=closeTime.value.split(':').map(Number);
-  let start=sh*60+sm,end=eh*60+em;
-  if(end<start) end+=1440;
-  let diff=end-start;
-  totalHrs.value=Math.floor(diff/60)+"h "+(diff%60)+"m";
-}
-
-
-}
+// Auto trigger
+["starting_time", "closing_time"].forEach(id => {
+  document.getElementById(id).addEventListener("change", calculateTotalHrsTimeOnly);
+  document.getElementById(id).addEventListener("input", calculateTotalHrsTimeOnly);
+});
 </script>
+
 </body>
 </html>
+
 
 
 
