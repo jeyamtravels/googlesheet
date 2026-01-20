@@ -182,23 +182,24 @@ I confirm that I am responsible for full payment of this bill if not paid by the
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3g3AiGejmbmcJJn9vs-38F8Pj4Wzjznva-Xrv7rvJY4no_Bc4Url-BTG6nCWEJAa8/exec";
-/* LOAD DATA */
-window.onload = () => {
-  const dsNo = new URLSearchParams(location.search).get("ds_no");
-  if (!dsNo) return;
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby7JGKktkkVA6DWrIIK7ZsYmDmPSkll4FAHYkjmsRg6xlC_LHjt00_3GWliDIQLo3tx/exec";
+const params = new URLSearchParams(window.location.search);
+const startingDate = params.get("starting_date");
+const bookingId = params.get("booking_id");
 
-  fetch(`${SCRIPT_URL}?ds_no=${encodeURIComponent(dsNo)}`)
-    .then(r => r.json())
+if (startingDate && bookingId) {
+  fetch(`${SCRIPT_URL}?starting_date=${encodeURIComponent(startingDate)}&booking_id=${encodeURIComponent(bookingId)}`)
+    .then(res => res.json())
     .then(data => {
-      for (const k in data) {
-        const el = document.getElementById(k);
-        if (el) el.value = data[k];
+      for (const key in data) {
+        const el = document.getElementById(key);
+        if (el) el.value = data[key];
       }
       calculateAll();
     })
     .catch(() => alert("Failed to load trip data"));
-};
+}
+
 
 /* CALCULATIONS */
 function calculateAll(){
