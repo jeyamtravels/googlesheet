@@ -234,49 +234,6 @@ alert("Unable to load booking.");
 
 }
 
-function calculateAll(){
-
-const skm=Number(document.getElementById("starting_km").value)||0;
-
-const ckm=Number(document.getElementById("closing_km").value)||0;
-
-if(ckm>=skm){
-
-document.getElementById("total_km").value=ckm-skm;
-
-}
-
-const st=document.getElementById("starting_time").value;
-
-const ct=document.getElementById("closing_time").value;
-
-if(st&&ct){
-
-let s=st.split(":").map(Number);
-
-let c=ct.split(":").map(Number);
-
-let sm=s[0]*60+s[1];
-
-let cm=c[0]*60+c[1];
-
-if(cm<sm) cm+=1440;
-
-let diff=cm-sm;
-
-document.getElementById("total_hrs").value=Math.floor(diff/60)+"h "+(diff%60)+"m";
-
-}
-
-}
-
-["starting_time","closing_time","starting_km","closing_km"]
-
-.forEach(id=>{
-
-document.getElementById(id).addEventListener("input",calculateAll);
-
-});
 
 
 
