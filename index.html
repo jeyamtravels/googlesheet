@@ -105,7 +105,7 @@ canvas{
 <tr>
 <td class="w-small"><label>Service City</label><input id="service_city"></td>
 <td class="w-small"><label>Organisation</label><input id="organisation"></td>
-<td class="large"><label>Guest Name</label><input id="guest_name"></td>
+<td class="w-large"><label>Guest Name</label><input id="guest_name"></td>
 </tr>
 <tr>
 <td class="w-small"><label>DS No</label><input id="ds_no"></td>
@@ -121,9 +121,9 @@ canvas{
 <td class="w-small"><label>Starting KM</label><input id="starting_km" type="number"></td>
 </tr>
 <tr>
-<td class="w-small">Closing Date</label><input id="closing_date" type="date"></td>
-<td class="w-small">Closing Time</label><input id="closing_time" type="time"></td>
-<td><label="w-small">Closing KM</label><input id="closing_km" type="number"></td>
+<td class="w-small"><label>Closing Date</label><input id="closing_date" type="date"></td>
+<td class="w-small"><label>Closing Time</label><input id="closing_time" type="time"></td>
+<td><label="w-small"><label>Closing KM</label><input id="closing_km" type="number"></td>
 </tr>
 </table>
 
@@ -181,25 +181,101 @@ I confirm that I am responsible for full payment of this bill if not paid by the
 <button onclick="window.print()">Print Trip Sheet</button>
 </div>
 
-<script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw9O37oilMlyBNIUVKYp9eOYPWEG-BMXj5vEmqamcFUDPJfla9p2NQd2AcLAiQh5uQY/exec";
-const params = new URLSearchParams(window.location.search);
-const startingDate = params.get("starting_date");
-const bookingId = params.get("booking_id");
+ <script>
 
-if (startingDate && bookingId) {
-  fetch(`${SCRIPT_URL}?starting_date=${encodeURIComponent(startingDate)}&booking_id=${encodeURIComponent(bookingId)}`)
-    .then(res => res.json())
-    .then(data => {
-      for (const key in data) {
-        const el = document.getElementById(key);
-        if (el) el.value = data[key];
-      }
-      calculateAll();
-    })
-    .catch(() => alert("Failed to load trip data"));
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzhj43S8c0eJ8uemNcmuXic6lirH5dMjbGD-py3P8flsr5Cgfdm-fsnDyhTPcmfBpHc/exec";
+
+const params=new URLSearchParams(window.location.search);
+
+const bookingId=params.get("bookingId");
+
+if(bookingId){
+
+fetch(`${SCRIPT_URL}?bookingId=${encodeURIComponent(bookingId)}`)
+
+.then(r=>r.json())
+
+.then(data=>{
+
+if(!data.status){
+
+alert(data.message);
+
+return;
+
 }
 
+for(const key in data){
+
+const el=document.getElementById(key);
+
+if(el){
+
+el.value=data[key];
+
+}
+
+}
+
+calculateAll();
+
+})
+
+.catch(err=>{
+
+console.log(err);
+
+alert("Unable to load booking.");
+
+});
+
+}
+
+function calculateAll(){
+
+const skm=Number(document.getElementById("starting_km").value)||0;
+
+const ckm=Number(document.getElementById("closing_km").value)||0;
+
+if(ckm>=skm){
+
+document.getElementById("total_km").value=ckm-skm;
+
+}
+
+const st=document.getElementById("starting_time").value;
+
+const ct=document.getElementById("closing_time").value;
+
+if(st&&ct){
+
+let s=st.split(":").map(Number);
+
+let c=ct.split(":").map(Number);
+
+let sm=s[0]*60+s[1];
+
+let cm=c[0]*60+c[1];
+
+if(cm<sm) cm+=1440;
+
+let diff=cm-sm;
+
+document.getElementById("total_hrs").value=Math.floor(diff/60)+"h "+(diff%60)+"m";
+
+}
+
+}
+
+["starting_time","closing_time","starting_km","closing_km"]
+
+.forEach(id=>{
+
+document.getElementById(id).addEventListener("input",calculateAll);
+
+});
+
+</script>
 
 /* CALCULATIONS */
 function calculateAll(){
