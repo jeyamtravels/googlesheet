@@ -190,12 +190,10 @@ const SCRIPT_URL ="https://script.google.com/macros/s/AKfycbw3WpmvrYXkQJ1ZxobSxD
 
 const params=new URLSearchParams(window.location.search);
 
-const bookingId=params.get("bookingId");
+const dsNo = new URLSearchParams(window.location.search).get("dsNo");
 
-if(bookingId){
-
-fetch(`${SCRIPT_URL}?bookingId=${encodeURIComponent(bookingId)}`)
-
+if (dsNo) {
+    fetch(`${SCRIPT_URL}?dsNo=${encodeURIComponent(dsNo)}`)
 .then(r=>r.json())
 
 .then(data=>{
